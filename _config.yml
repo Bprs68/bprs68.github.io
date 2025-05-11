@@ -4,7 +4,7 @@ minimal_mistakes_skin: "default"
 
 # Site Settings
 locale: "en-US"
-title: "About Me"
+title: "Bhaskar Kumar"
 title_separator: "|"
 subtitle: "Data Scientist & Solution Architect"
 name: "Bhaskar Kumar"
@@ -14,7 +14,7 @@ baseurl: ""
 repository: "Bprs68/bprs68.github.io"
 teaser: null
 logo: null
-masthead_title: "Bhaskar Kumar"
+masthead_title: "About Me"
 breadcrumbs: false
 words_per_minute: 200
 
@@ -181,3 +181,9 @@ defaults:
       header:
         overlay_image: null
         teaser: null
+github: [metadata]
+repository: bprs68/bprs68.github.io
+github:
+  source:
+    remote_name: origin
+    branch: main
