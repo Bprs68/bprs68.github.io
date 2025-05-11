@@ -181,8 +181,12 @@ defaults:
       header:
         overlay_image: null
         teaser: null
+# GitHub Metadata
 github: [metadata]
 repository: bprs68/bprs68.github.io
+github_username: bprs68
+
+# Explicitly configure GitHub connection
 github:
   source:
     remote_name: origin
