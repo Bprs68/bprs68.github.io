@@ -1,0 +1,37 @@
+{% assign author = page.author | default: page.authors[0] | default: site.author %}
+{% assign author = site.data.authors[author] | default: author %}
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  {% if author.name %}
+    <div class="author__name">
+      <strong>{{ author.name }}</strong>
+    </div>
+  {% endif %}
+
+  {% if author.bio %}
+    <div class="author__bio" itemprop="description">
+      {{ author.bio | markdownify }}
+    </div>
+  {% endif %}
+
+  {% if author.location %}
+    <div class="author__urls-wrapper">
+      <ul class="author__urls social-icons">
+        {% if author.location %}
+          <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+            <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="author-location">{{ author.location }}</span>
+          </li>
+        {% endif %}
+
+        {% if author.links %}
+          {% for link in author.links %}
+            {% if link.label and link.url %}
+              <li><a href="{{ link.url }}" rel="nofollow noopener noreferrer"><i class="{{ link.icon | default: 'fas fa-link' }}" aria-hidden="true"></i><span class="label">{{ link.label }}</span></a></li>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+  {% endif %}
+</div>
