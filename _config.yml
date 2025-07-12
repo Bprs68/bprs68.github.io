@@ -1,11 +1,11 @@
 # Theme Settings
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
-minimal_mistakes_skin: "default"
+minimal_mistakes_skin: "air"  # Changed to 'air' for a cleaner, modern look
 
 # Site Settings
 locale: "en-US"
 title: "Bhaskar Kumar"
-title_separator: "|"
+title_separator: "•"  # Changed to a more elegant separator
 subtitle: "Data Scientist & Solution Architect"
 name: "Bhaskar Kumar"
 description: "Bhaskar Kumar's personal website and blog - Data Scientist, Solution Architect, and Flaneur"
@@ -17,6 +17,18 @@ logo: null
 masthead_title: "About Me"
 breadcrumbs: false
 words_per_minute: 200
+favicon: "/assets/images/favicon.ico"
+
+# Typography settings
+serif_font_family: "Lora, 'Times New Roman', serif"
+sans_serif_font_family: "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif"
+monospace_font_family: "'Source Code Pro', Monaco, Consolas, 'Courier New', Courier, monospace"
+base_font_size: "18"
+font_size_h1: "2.441em"
+font_size_h2: "1.953em"
+font_size_h3: "1.563em"
+font_size_h4: "1.25em"
+line_height_base: "1.75"
 
 # Site Author - Removing avatar and keeping minimal info
 author:
@@ -112,17 +124,21 @@ sass:
 
 # Outputting
 permalink: /:categories/:title/
-paginate: 10
-paginate_path: /blog/page:num/
 timezone: Asia/Kolkata
 
 # Plugins
 plugins:
-  - jekyll-paginate
+  - jekyll-paginate-v2
   - jekyll-sitemap
   - jekyll-gist
   - jekyll-feed
   - jekyll-include-cache
+
+# Pagination
+pagination:
+  enabled: true
+  per_page: 10
+  permalink: /blog/page/:num/
 
 # Archives
 category_archive:
@@ -152,7 +168,7 @@ defaults:
       type: posts
     values:
       layout: single
-      author_profile: true
+      author_profile: false
       read_time: true
       comments: false
       share: true
@@ -167,7 +183,7 @@ defaults:
       type: pages
     values:
       layout: single
-      author_profile: true
+      author_profile: false
       header:
         overlay_image: null
   # _projects
@@ -182,12 +198,11 @@ defaults:
         overlay_image: null
         teaser: null
 # GitHub Metadata
-github: [metadata]
-repository: bprs68/bprs68.github.io
-github_username: bprs68
-
-# Explicitly configure GitHub connection
+repository: Bprs68/bprs68.github.io
 github:
-  source:
-    remote_name: origin
+  metadata:
+    repository: Bprs68/bprs68.github.io
     branch: main
+  source:
+    branch: main
+    remote_name: origin
