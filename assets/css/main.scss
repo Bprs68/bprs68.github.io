@@ -4,59 +4,38 @@
 
 @charset "utf-8";
 
+// Import Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Open+Sans:wght@300;400;600&family=Source+Code+Pro:wght@400;600&display=swap');
+
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
-// Remove author profile image placeholder
-.author__avatar {
-  display: none;
-}
+// Color variables
+$primary-color: #2c3e50;  // Deep blue-gray
+$accent-color: #34495e;   // Slightly lighter blue-gray
+$text-color: #2c3e50;     // Main text color
+$bg-light: #f8f9fa;       // Light background
+$border-color: #e9ecef;   // Subtle border color
 
-// Hide image-related elements
-.page__hero,
-.page__hero--overlay,
-.page__hero-image,
-.archive__item-teaser,
-.feature__item--left .archive__item-teaser,
-.feature__item--right .archive__item-teaser,
-.feature__item--center .archive__item-teaser {
-  display: none;
-}
-
-// Adjust layout for missing images
-.page__content .feature__item {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-// Improve typography
+// Typography improvements
 .page__title,
 .archive__item-title {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Lora', serif;
   font-weight: 600;
+  color: $primary-color;
 }
 
 // Match your homepage color scheme
 .btn--primary {
-  background-color: #937341 !important;
-}
-
-.btn--primary:hover {
-  background-color: #B69B67 !important;
+  background-color: $accent-color !important;
+  
+  &:hover {
+    background-color: darken($accent-color, 10%) !important;
+  }
 }
 
 .page__footer {
-  background-color: #2C3338;
-}
-
-// Hide author name at top of content if it matches the site title
-h1.author__name:contains("Bhaskar Kumar") {
-  display: none;
-}
-
-// Hide redundant page titles that match author name
-.page__title:contains("Bhaskar Kumar") {
-  display: none;
+  background-color: $primary-color;
 }
 
 // Style the masthead to be more minimal
@@ -66,4 +45,135 @@ h1.author__name:contains("Bhaskar Kumar") {
 
 .site-title {
   font-size: 1.5em;
+  color: $primary-color;
+}
+
+// Enhance hero section
+.page__hero--overlay {
+  background-color: $bg-light !important;
+  padding: 4em 0 2em;
+  text-align: center;
+  margin-bottom: 0;
+  
+  .page__title {
+    font-family: 'Lora', serif;
+    font-size: 3em;
+    font-weight: 600;
+    color: $primary-color;
+    text-shadow: none;
+    letter-spacing: -0.02em;
+  }
+  
+  .page__lead {
+    max-width: 640px;
+    margin: 0 auto;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2em;
+    font-weight: 300;
+    line-height: 1.6;
+    color: $accent-color;
+  }
+}
+
+// About section styles
+.about-section {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  padding: 2em 0;
+  margin-top: -2em;
+  background-color: white;
+  
+  .wrapper {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 4em;
+
+    @media screen and (max-width: 768px) {
+      padding: 0 1.5em;
+    }
+  }
+
+  h2 {
+    font-size: 2em;
+    margin-bottom: 1em;
+    color: $primary-color;
+    text-align: left;
+  }
+
+  p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: $text-color;
+    margin-bottom: 1.5em;
+    max-width: none;
+  }
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5em;
+  max-width: none;
+  margin: 2em 0;
+
+  .skill-item {
+    padding: 1.2em;
+    background: $bg-light;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border-left: 3px solid $accent-color;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    i {
+      color: $accent-color;
+      margin-right: 0.5em;
+    }
+
+    strong {
+      color: $primary-color;
+      font-weight: 600;
+    }
+  }
+}
+
+.about-cta {
+  text-align: left;
+  margin-top: 3em;
+
+  .btn--primary {
+    display: inline-block;
+    padding: 0.8em 1.6em;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    background-color: $accent-color !important;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      background-color: darken($accent-color, 10%) !important;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .about-section {
+    padding: 3em 0;
+  }
+  
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 1em;
+  }
 }
