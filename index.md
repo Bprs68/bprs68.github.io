@@ -3,42 +3,70 @@ layout: splash
 permalink: /
 hidden: true
 header:
-  overlay_color: "#5e616c"
-  overlay_image: /assets/images/header-image.jpg
-  actions:
-    - label: "Blog"
-      url: "/blog/"
+  overlay_color: "#f8f9fa"
+  overlay_filter: "0"
+title: "Bhaskar Kumar"
 excerpt: >
-  Data Scientist | Solution Architect | Flaneur<br />
-  <small>Weaving together Computer Science, Mathematics, Cloud Computing, and AI to solve meaningful problems.</small>
+  Data Scientist • Solution Architect • Flaneur<br />
+  <small>Creating elegant solutions at the intersection of AI and cloud computing</small>
 feature_row:
   - image_path: /assets/images/project-gyaan-teaser.jpg
     alt: "Project Gyaan"
-    title: "Project Gyaan"
-    excerpt: "An intelligent article curator that automatically discovers, evaluates, and delivers high-quality content to your inbox."
+    title: "<i class='fas fa-robot'></i> Project Gyaan"
+    excerpt: "An intelligent article curator powered by AI that discovers, evaluates, and delivers high-quality content tailored to your interests."
     url: "/projects/project-gyaan/"
     btn_class: "btn--primary"
-    btn_label: "Learn more"
+    btn_label: "<i class='fas fa-arrow-right'></i> Learn more"
   - image_path: /assets/images/netflix-teaser.jpg
     alt: "Netflix Clustering"
-    title: "Netflix Content Clustering"
-    excerpt: "Clustering similar Netflix content and building a content-based recommendation system."
+    title: "<i class='fas fa-film'></i> Netflix Content Clustering"
+    excerpt: "A sophisticated content clustering system that powers personalized recommendations for Netflix content using advanced ML algorithms."
     url: "/projects/netflix-clustering/"
     btn_class: "btn--primary"
-    btn_label: "Learn more"
+    btn_label: "<i class='fas fa-arrow-right'></i> Learn more"
   - image_path: /assets/images/blog-teaser.jpg
     alt: "Technical Writing"
-    title: "Technical Writing"
-    excerpt: "Articles and tutorials on data science, cloud computing, life and solution architecture."
+    title: "<i class='fas fa-pen-nib'></i> Technical Writing"
+    excerpt: "Deep dives into data science, cloud architecture, and the art of building scalable solutions. Join me in exploring the tech frontier."
     url: "https://medium.com/@bhaskards6869"
     btn_class: "btn--primary"
-    btn_label: "Read More"
+    btn_label: "<i class='fas fa-book-reader'></i> Read More"
 ---
 
+<div class="about-section">
+  <div class="wrapper">
+    <h2><i class="fas fa-user-circle"></i> About Me</h2>
+    
+    <p>I'm Bhaskar Kumar, a Data Scientist who sees technology through the lens of both art and engineering. By day, I architect solutions that bridge the gap between complex problems and elegant implementations. By night, I'm a flaneur – wandering through the realms of ideas, seeking inspiration in unexpected places.</p>
+
+    <div class="skills-grid">
+      <div class="skill-item">
+        <i class="fas fa-brain"></i> <strong>Data Science & AI</strong>: Crafting intelligent systems that learn and adapt
+      </div>
+      <div class="skill-item">
+        <i class="fas fa-cloud"></i> <strong>Cloud Architecture</strong>: Building scalable, resilient solutions
+      </div>
+      <div class="skill-item">
+        <i class="fas fa-code"></i> <strong>Software Engineering</strong>: Writing clean, maintainable code
+      </div>
+      <div class="skill-item">
+        <i class="fas fa-lightbulb"></i> <strong>Innovation</strong>: Finding creative solutions to complex problems
+      </div>
+    </div>
+
+    <p>When I'm not immersed in code or architecting solutions, you'll find me exploring the intersection of technology and creativity through books, films, and endless curiosity.</p>
+    
+    <div class="about-cta">
+      <a href="/about/" class="btn btn--primary btn--large"><i class="fas fa-arrow-right"></i> Learn more about me</a>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider">
+  <hr>
+  <h2 class="section-title"><i class="fas fa-project-diagram"></i> Featured Projects</h2>
+</div>
+
+<div class="feature-row-wrapper" markdown="1">
 {% include feature_row %}
-
-## About Me
-
-I'm Bhaskar Kumar, a Data Scientist by title, but at heart, I'm a flaneur and solution architect. I weave together Computer Science, Mathematics, Cloud Computing, and AI to solve meaningful problems. My approach combines these disciplines to create solutions that matter.
-
-When I'm not architecting solutions or working on passion projects, you'll find me lost in books or immersed in films. This balance of technical precision and creative exploration defines both my work and life.
+</div>

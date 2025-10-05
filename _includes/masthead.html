@@ -1,18 +1,7 @@
-{% capture logo_path %}{{ site.logo }}{% endcapture %}
-
 <div class="masthead">
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
-        {% unless logo_path == empty %}
-          <a class="site-title" href="{{ '/' | relative_url }}">
-            {{ site.masthead_title | default: site.title }}
-          </a>
-        {% else %}
-          <a class="site-title" href="{{ '/' | relative_url }}">
-            {{ site.masthead_title | default: site.title }}
-          </a>
-        {% endunless %}
         <ul class="visible-links">
           {%- for link in site.data.navigation.main -%}
             <li class="masthead__menu-item">
