@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhaskar Kumar — AI/ML Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(0.12 0.01 55);
+    --bg2: oklch(0.16 0.01 55);
+    --bg3: oklch(0.20 0.012 55);
+    --fg: oklch(0.93 0.01 70);
+    --fg-muted: oklch(0.65 0.01 70);
+    --fg-dim: oklch(0.42 0.01 70);
+    --accent: oklch(0.75 0.14 65);
+    --accent-dim: oklch(0.55 0.10 65);
+    --border: oklch(0.25 0.01 55);
+    --font-serif: 'DM Serif Display', Georgia, serif;
+    --font-mono: 'DM Mono', 'Courier New', monospace;
+    --font-sans: 'Inter', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  #root { min-height: 100vh; }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// ─── DATA ───────────────────────────────────────────────────────────
+const EXPERIENCE = [
+  {
+    role: "Senior Analyst — Data Intelligence",
+    company: "Financial Consulting Firm",
+    period: "Feb 2026 – Present",
+    location: "Mumbai, India",
+    tags: ["LangGraph", "Snowflake", "LangSmith", "Agentic AI"],
+    bullets: [
+      "Built a production LangGraph orchestrator routing investor queries across semantic retrieval and NL-to-SQL metrics over PE documents — achieving 97%+ accuracy",
+      "Designed end-to-end Snowflake pipeline: raw PE documents → structured extraction via LandingAI → metrics persisted in Snowflake tables",
+      "Building deep research agents for complex investor queries with multi-step reasoning, cross-document comparisons, and lightweight financial modelling",
+      "User intent and persona modelling from conversation history for personalised query handling; full pipeline on LangSmith for trace-level observability"
+    ]
+  },
+  {
+    role: "Specialist, Software Engineering (Data & AI)",
+    company: "Blenheim Chalcot — Accelerate People",
+    period: "Aug 2025 – Jan 2026",
+    location: "Mumbai, India",
+    tags: ["Azure", "Docker", "FastAPI", "LangChain"],
+    bullets: [
+      "Architected an AI-backed assessment platform for the UK's largest apprenticeship body — cutting turnaround from 72 hours to under 3 hours",
+      "Deployed multimodal AI pipelines using OCR and Vision Transformers for intelligent extraction, improving contextual AI accuracy by 65%",
+      "Built REST APIs with OAuth2/Azure AD SSO, RBAC, and structured logging — reducing manual ops by ~70% and improving API response times by 30–40%",
+      "Containerized microservices with Docker on Azure Web Apps; CI/CD via GitHub Actions cutting post-release incidents by 80%"
+    ]
+  },
+  {
+    role: "Associate Data Scientist",
+    company: "Blenheim Chalcot India",
+    period: "Jun 2023 – Aug 2025",
+    location: "Mumbai, India",
+    tags: ["Python", "ML", "LLM Fine-tuning", "Power BI"],
+    bullets: [
+      "Built Credit Coach, an AI-driven customer engagement product — improving acquisition by 23% and retention by 31%",
+      "Fine-tuned LLMs via Prompt Tuning and LoRA for UK apprenticeship standards, boosting factual accuracy by 40%",
+      "Implemented Agentic RAG pipelines (LangChain + Azure Cognitive Search), increasing stakeholder self-service insights by 5×",
+      "Optimized Power BI semantic models and DAX queries achieving real-time refresh under 10s (12× improvement)"
+    ]
+  }
+];
+
+const PROJECTS = [
+  {
+    title: "OpenWebUI Local Chat Setup",
+    type: "Publication · Guide",
+    desc: "A practical guide to creating a ChatGPT-like interface for open-source models using OpenWebUI, Open Router and Ollama — running entirely on local hardware.",
+    tags: ["LLMs", "Ollama", "OpenWebUI", "Open Source"],
+    link: "#"
+  },
+  {
+    title: "Chrome DevTools MCP",
+    type: "Publication · Guide",
+    desc: "Developing and debugging UI with the Chrome DevTools Model Context Protocol — bridging the gap between AI agents and browser developer tooling.",
+    tags: ["MCP", "Chrome DevTools", "AI Agents", "Debugging"],
+    link: "#"
+  },
+  {
+    title: "GenAI in Healthcare",
+    type: "Publication · Essay",
+    desc: "How GenAI & ML is (and will be) helping the health sector — exploring real-world applications from diagnostics to clinical decision support, beyond the jargon.",
+    tags: ["GenAI", "Healthcare", "LLMs", "Applied ML"],
+    link: "#"
+  }
+];
+
+const SKILLS = {
+  "Core AI/ML": ["LangChain", "LangGraph", "RAG / Agentic RAG", "LLM Fine-tuning", "Prompt Engineering", "LlamaIndex", "AutoGen", "SmolAgents", "Model Context Protocol"],
+  "Engineering": ["Python", "FastAPI", "Docker", "REST APIs", "OAuth2 / RBAC", "Git", "GitHub Actions", "PostgreSQL", "MongoDB"],
+  "Cloud & Data": ["Azure ML", "Azure AI Search", "Azure Data Factory", "AWS (S3, Lambda)", "Snowflake", "Terraform", "Power BI", "Tableau"],
+  "ML Fundamentals": ["PyTorch", "TensorFlow", "Scikit-learn", "NLP", "Vision Transformers", "OCR", "A/B Testing", "Statistical Modelling"]
+};
+
+// ─── COMPONENTS ─────────────────────────────────────────────────────
+
+function Nav({ active }) {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', fn);
+    return () => window.removeEventListener('scroll', fn);
+  }, []);
+
+  const links = ['About', 'Experience', 'Projects', 'Skills', 'Contact'];
+  return (
+    <nav style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      padding: '0 clamp(24px, 6vw, 80px)',
+      height: 64,
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      background: scrolled ? 'oklch(0.12 0.01 55 / 0.92)' : 'transparent',
+      backdropFilter: scrolled ? 'blur(12px)' : 'none',
+      borderBottom: scrolled ? '1px solid oklch(0.25 0.01 55)' : '1px solid transparent',
+      transition: 'all 0.4s ease',
+      fontFamily: 'var(--font-mono)',
+    }}>
+      <span style={{ fontSize: 13, letterSpacing: '0.08em', color: 'var(--accent)', fontWeight: 500 }}>
+        BK
+      </span>
+      <div style={{ display: 'flex', gap: 32 }}>
+        {links.map(l => (
+          <a key={l} href={`#${l.toLowerCase()}`} style={{
+            fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase',
+            color: 'var(--fg-muted)', textDecoration: 'none',
+            transition: 'color 0.2s',
+          }}
+          onMouseEnter={e => e.target.style.color = 'var(--accent)'}
+          onMouseLeave={e => e.target.style.color = 'var(--fg-muted)'}
+          >{l}</a>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+function Hero() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => { setTimeout(() => setVisible(true), 100); }, []);
+
+  return (
+    <section style={{
+      minHeight: '100vh',
+      display: 'flex', flexDirection: 'column', justifyContent: 'center',
+      padding: 'clamp(100px, 15vh, 160px) clamp(24px, 10vw, 160px) clamp(60px, 10vh, 100px)',
+      position: 'relative',
+    }}>
+      {/* Decorative line */}
+      <div style={{
+        position: 'absolute', top: '30%', right: 'clamp(24px, 8vw, 120px)',
+        width: 1, height: '200px',
+        background: 'linear-gradient(to bottom, transparent, var(--accent-dim), transparent)',
+        opacity: visible ? 0.5 : 0,
+        transition: 'opacity 1.2s ease 0.6s',
+      }} />
+
+      <div style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(24px)',
+        transition: 'all 0.9s cubic-bezier(0.16, 1, 0.3, 1)',
+      }}>
+        <p style={{
+          fontFamily: 'var(--font-mono)', fontSize: 12,
+          letterSpacing: '0.2em', textTransform: 'uppercase',
+          color: 'var(--accent)', marginBottom: 24,
+        }}>Mumbai, India · Available for opportunities</p>
+
+        <h1 style={{
+          fontFamily: 'var(--font-serif)',
+          fontSize: 'clamp(52px, 9vw, 120px)',
+          fontWeight: 400, lineHeight: 1.0,
+          color: 'var(--fg)',
+          marginBottom: 32, letterSpacing: '-0.01em',
+        }}>
+          Bhaskar<br />
+          <em style={{ color: 'var(--accent)', fontStyle: 'italic' }}>Kumar</em>
+        </h1>
+
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 16, marginBottom: 32,
+          flexWrap: 'wrap',
+        }}>
+          {['AI/ML Engineer', 'Solution Architect', 'Flaneur'].map((t, i) => (
+            <React.Fragment key={t}>
+              <span style={{
+                fontFamily: 'var(--font-mono)', fontSize: 13,
+                color: 'var(--fg-muted)', letterSpacing: '0.04em',
+              }}>{t}</span>
+              {i < 2 && <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--accent)', display: 'inline-block', opacity: 0.6 }} />}
+            </React.Fragment>
+          ))}
+        </div>
+
+        <p style={{
+          maxWidth: 520, fontSize: 17, lineHeight: 1.75,
+          color: 'var(--fg-muted)', marginBottom: 48,
+          fontWeight: 300,
+        }}>
+          I build production-ready AI systems that actually work — not just demos. 
+          My work sits at the intersection of applied ML, GenAI, and agentic AI: 
+          LLMs, RAG pipelines, agent orchestration, and the engineering discipline to ship them reliably.
+        </p>
+
+        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+          <a href="#experience" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            padding: '12px 28px',
+            background: 'var(--accent)', color: 'var(--bg)',
+            textDecoration: 'none',
+            fontFamily: 'var(--font-mono)', fontSize: 12,
+            letterSpacing: '0.12em', textTransform: 'uppercase',
+            transition: 'all 0.2s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'oklch(0.82 0.14 65)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'var(--accent)'; }}
+          >View Work ↓</a>
+          <a href="mailto:bhaskards6869@gmail.com" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            padding: '12px 28px',
+            border: '1px solid var(--border)',
+            color: 'var(--fg-muted)',
+            textDecoration: 'none',
+            fontFamily: 'var(--font-mono)', fontSize: 12,
+            letterSpacing: '0.12em', textTransform: 'uppercase',
+            transition: 'all 0.2s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent)'; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--fg-muted)'; }}
+          >Get in Touch</a>
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div style={{
+        position: 'absolute', bottom: 48, left: 'clamp(24px, 10vw, 160px)',
+        display: 'flex', alignItems: 'center', gap: 12,
+        opacity: visible ? 0.4 : 0,
+        transition: 'opacity 1s ease 1s',
+      }}>
+        <div style={{
+          width: 40, height: 1,
+          background: 'var(--fg-muted)',
+        }} />
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--fg-muted)' }}>Scroll</span>
+      </div>
+
+      {/* Stats row */}
+      <div style={{
+        position: 'absolute', right: 'clamp(24px, 8vw, 120px)', bottom: 48,
+        display: 'flex', gap: 40,
+        opacity: visible ? 1 : 0,
+        transition: 'opacity 0.9s ease 0.8s',
+      }}>
+        {[['97%', 'Query Accuracy'], ['95%', 'Time Reduction'], ['3+', 'Years AI/ML']].map(([n, l]) => (
+          <div key={l} style={{ textAlign: 'right' }}>
+            <div style={{ fontFamily: 'var(--font-serif)', fontSize: 28, color: 'var(--accent)', lineHeight: 1 }}>{n}</div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--fg-dim)', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: 4 }}>{l}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SectionLabel({ children }) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 16, marginBottom: 64,
+    }}>
+      <span style={{
+        fontFamily: 'var(--font-mono)', fontSize: 11,
+        letterSpacing: '0.2em', textTransform: 'uppercase',
+        color: 'var(--accent)',
+      }}>{children}</span>
+      <div style={{ flex: 1, height: 1, background: 'var(--border)', maxWidth: 80 }} />
+    </div>
+  );
+}
+
+function About() {
+  return (
+    <section id="about" style={{
+      padding: 'clamp(80px, 12vh, 120px) clamp(24px, 10vw, 160px)',
+      borderTop: '1px solid var(--border)',
+    }}>
+      <SectionLabel>01 — About</SectionLabel>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }}>
+        <div>
+          <h2 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(32px, 4vw, 52px)',
+            fontWeight: 400, lineHeight: 1.15,
+            marginBottom: 32, color: 'var(--fg)',
+          }}>
+            Engineer by craft,<br />
+            <em style={{ fontStyle: 'italic', color: 'var(--accent)' }}>flaneur</em> by nature.
+          </h2>
+          <p style={{ fontSize: 16, lineHeight: 1.85, color: 'var(--fg-muted)', marginBottom: 20, fontWeight: 300 }}>
+            I'm an AI/ML Engineer who sees technology through the lens of both art and engineering. 
+            By day, I architect solutions that bridge complex problems with elegant implementations — 
+            building agentic systems, RAG pipelines, and ML infrastructure that ships to production.
+          </p>
+          <p style={{ fontSize: 16, lineHeight: 1.85, color: 'var(--fg-muted)', fontWeight: 300 }}>
+            By night, I'm a flaneur — wandering the realms of ideas, seeking inspiration in unexpected places. 
+            I write about AI, technology, and the quietly remarkable ways they're reshaping industries. 
+            Based in Mumbai, working at the frontier of applied AI.
+          </p>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          {[
+            { label: 'Current Role', value: 'Senior Analyst — Data Intelligence' },
+            { label: 'Company', value: 'Financial Consulting Firm' },
+            { label: 'Location', value: 'Mumbai, Maharashtra' },
+            { label: 'Education', value: 'B.Com (Accounting & Finance), LNMU' },
+            { label: 'Focus Areas', value: 'Agentic AI · LLMs · RAG Pipelines · MLOps' },
+          ].map(({ label, value }) => (
+            <div key={label} style={{
+              display: 'flex', flexDirection: 'column', gap: 4,
+              paddingBottom: 24, borderBottom: '1px solid var(--border)',
+            }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--fg-dim)' }}>{label}</span>
+              <span style={{ fontSize: 15, color: 'var(--fg)', fontWeight: 400 }}>{value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ExperienceCard({ exp, index, isOpen, onToggle }) {
+  return (
+    <div style={{
+      borderTop: '1px solid var(--border)',
+      overflow: 'hidden',
+    }}>
+      <button onClick={onToggle} style={{
+        width: '100%', background: 'none', border: 'none', cursor: 'pointer',
+        padding: '32px 0',
+        display: 'grid',
+        gridTemplateColumns: '3fr 1fr auto',
+        gap: 24,
+        alignItems: 'center',
+        textAlign: 'left',
+      }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8 }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--accent)', letterSpacing: '0.15em' }}>
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 22, fontWeight: 400, color: 'var(--fg)' }}>{exp.role}</h3>
+          </div>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--fg-muted)', letterSpacing: '0.04em' }}>{exp.company}</p>
+        </div>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--fg-dim)', letterSpacing: '0.06em' }}>{exp.period}</span>
+        <span style={{
+          width: 28, height: 28, borderRadius: '50%',
+          border: '1px solid var(--border)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: 'var(--fg-muted)', fontSize: 14,
+          transition: 'all 0.3s',
+          transform: isOpen ? 'rotate(45deg)' : 'rotate(0)',
+          flexShrink: 0,
+        }}>+</span>
+      </button>
+
+      <div style={{
+        maxHeight: isOpen ? '600px' : '0',
+        overflow: 'hidden',
+        transition: 'max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+      }}>
+        <div style={{ paddingBottom: 40 }}>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 28 }}>
+            {exp.tags.map(t => (
+              <span key={t} style={{
+                fontFamily: 'var(--font-mono)', fontSize: 10,
+                letterSpacing: '0.1em', textTransform: 'uppercase',
+                padding: '4px 10px',
+                border: '1px solid var(--accent-dim)',
+                color: 'var(--accent)',
+                borderRadius: 2,
+              }}>{t}</span>
+            ))}
+          </div>
+          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {exp.bullets.map((b, i) => (
+              <li key={i} style={{
+                display: 'flex', gap: 16, alignItems: 'flex-start',
+                fontSize: 15, lineHeight: 1.7, color: 'var(--fg-muted)', fontWeight: 300,
+              }}>
+                <span style={{ color: 'var(--accent)', marginTop: 7, flexShrink: 0, fontSize: 8 }}>◆</span>
+                {b}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Experience() {
+  const [openIdx, setOpenIdx] = useState(0);
+  return (
+    <section id="experience" style={{
+      padding: 'clamp(80px, 12vh, 120px) clamp(24px, 10vw, 160px)',
+      borderTop: '1px solid var(--border)',
+    }}>
+      <SectionLabel>02 — Experience</SectionLabel>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 80 }}>
+        <div>
+          <h2 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(28px, 3vw, 42px)',
+            fontWeight: 400, lineHeight: 1.2,
+            color: 'var(--fg)', position: 'sticky', top: 100,
+          }}>
+            Building systems<br />that ship to<br />
+            <em style={{ fontStyle: 'italic', color: 'var(--accent)' }}>production.</em>
+          </h2>
+        </div>
+        <div>
+          {EXPERIENCE.map((exp, i) => (
+            <ExperienceCard key={i} exp={exp} index={i}
+              isOpen={openIdx === i}
+              onToggle={() => setOpenIdx(openIdx === i ? -1 : i)}
+            />
+          ))}
+          <div style={{ borderTop: '1px solid var(--border)', paddingTop: 32 }}>
+            <div style={{ display: 'flex', gap: 16 }}>
+              <div style={{ padding: '8px 0' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--fg-dim)', marginBottom: 4 }}>Education</div>
+                <div style={{ fontSize: 15, color: 'var(--fg)' }}>B.Com (Accounting & Finance)</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--fg-muted)' }}>Lalit Narayan Mithila University · 2020–2023</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProjectCard({ project }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <a href={project.link} style={{ textDecoration: 'none' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{
+        background: hovered ? 'var(--bg3)' : 'var(--bg2)',
+        border: `1px solid ${hovered ? 'var(--accent-dim)' : 'var(--border)'}`,
+        padding: '36px 32px',
+        transition: 'all 0.3s ease',
+        cursor: 'pointer',
+        height: '100%',
+      }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: 10,
+          letterSpacing: '0.15em', textTransform: 'uppercase',
+          color: 'var(--fg-dim)', marginBottom: 20,
+        }}>{project.type}</div>
+        <h3 style={{
+          fontFamily: 'var(--font-serif)', fontSize: 22, fontWeight: 400,
+          color: hovered ? 'var(--accent)' : 'var(--fg)',
+          marginBottom: 16, lineHeight: 1.3,
+          transition: 'color 0.3s',
+        }}>{project.title}</h3>
+        <p style={{
+          fontSize: 14, lineHeight: 1.75,
+          color: 'var(--fg-muted)', fontWeight: 300, marginBottom: 28,
+        }}>{project.desc}</p>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          {project.tags.map(t => (
+            <span key={t} style={{
+              fontFamily: 'var(--font-mono)', fontSize: 10,
+              letterSpacing: '0.08em',
+              padding: '3px 8px',
+              background: 'var(--bg)',
+              border: '1px solid var(--border)',
+              color: 'var(--fg-dim)',
+            }}>{t}</span>
+          ))}
+        </div>
+      </div>
+    </a>
+  );
+}
+
+function Projects() {
+  return (
+    <section id="projects" style={{
+      padding: 'clamp(80px, 12vh, 120px) clamp(24px, 10vw, 160px)',
+      borderTop: '1px solid var(--border)',
+      background: 'var(--bg2)',
+    }}>
+      <SectionLabel>03 — Writing & Projects</SectionLabel>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56 }}>
+        <h2 style={{
+          fontFamily: 'var(--font-serif)',
+          fontSize: 'clamp(32px, 4vw, 52px)',
+          fontWeight: 400, lineHeight: 1.15,
+          color: 'var(--fg)',
+        }}>
+          Ideas put into<br />
+          <em style={{ fontStyle: 'italic', color: 'var(--accent)' }}>words & code.</em>
+        </h2>
+        <a href="https://github.com/bprs68" target="_blank" rel="noopener" style={{
+          fontFamily: 'var(--font-mono)', fontSize: 11,
+          letterSpacing: '0.12em', textTransform: 'uppercase',
+          color: 'var(--fg-muted)', textDecoration: 'none',
+          display: 'flex', alignItems: 'center', gap: 8,
+          transition: 'color 0.2s',
+          paddingBottom: 4,
+          borderBottom: '1px solid var(--border)',
+        }}
+        onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+        onMouseLeave={e => e.currentTarget.style.color = 'var(--fg-muted)'}
+        >GitHub →</a>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2 }}>
+        {PROJECTS.map((p, i) => <ProjectCard key={i} project={p} />)}
+      </div>
+
+      {/* Award */}
+      <div style={{
+        marginTop: 48,
+        padding: '28px 32px',
+        border: '1px solid var(--accent-dim)',
+        background: 'oklch(0.75 0.14 65 / 0.04)',
+        display: 'flex', alignItems: 'center', gap: 24,
+      }}>
+        <span style={{ fontSize: 24, opacity: 0.8 }}>◆</span>
+        <div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 4 }}>Recognition</div>
+          <div style={{ fontSize: 15, color: 'var(--fg)', fontWeight: 400 }}>Quarterly Star Performer Award — Jul/Sep 2024</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--fg-muted)' }}>Blenheim Chalcot India</div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Skills() {
+  const [activeGroup, setActiveGroup] = useState('Core AI/ML');
+  return (
+    <section id="skills" style={{
+      padding: 'clamp(80px, 12vh, 120px) clamp(24px, 10vw, 160px)',
+      borderTop: '1px solid var(--border)',
+    }}>
+      <SectionLabel>04 — Skills</SectionLabel>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 80, alignItems: 'start' }}>
+        <div>
+          <h2 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(28px, 3vw, 42px)',
+            fontWeight: 400, lineHeight: 1.2,
+            color: 'var(--fg)', marginBottom: 40,
+          }}>
+            The full<br />
+            <em style={{ fontStyle: 'italic', color: 'var(--accent)' }}>stack.</em>
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {Object.keys(SKILLS).map(group => (
+              <button key={group} onClick={() => setActiveGroup(group)} style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                padding: '14px 0',
+                textAlign: 'left',
+                borderBottom: '1px solid var(--border)',
+                fontFamily: 'var(--font-mono)', fontSize: 12,
+                letterSpacing: '0.1em', textTransform: 'uppercase',
+                color: activeGroup === group ? 'var(--accent)' : 'var(--fg-muted)',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                transition: 'color 0.2s',
+              }}>
+                {group}
+                <span style={{ opacity: activeGroup === group ? 1 : 0, transition: 'opacity 0.2s' }}>→</span>
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+            {SKILLS[activeGroup].map((skill, i) => (
+              <div key={skill} style={{
+                padding: '12px 20px',
+                background: 'var(--bg2)',
+                border: '1px solid var(--border)',
+                fontFamily: 'var(--font-mono)', fontSize: 13,
+                color: 'var(--fg-muted)',
+                letterSpacing: '0.04em',
+                animation: 'fadeIn 0.3s ease',
+                animationDelay: `${i * 0.03}s`,
+                animationFillMode: 'both',
+              }}>{skill}</div>
+            ))}
+          </div>
+          <div style={{ marginTop: 48, padding: '24px', background: 'var(--bg2)', border: '1px solid var(--border)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--fg-dim)', marginBottom: 12 }}>Certifications</div>
+            {['Full Stack Data Science', 'Machine Learning (Stanford)', 'Generative AI with Large Language Models', 'Foundation of Generative AI', 'Snowflake — The Complete Masterclass'].map(c => (
+              <div key={c} style={{
+                fontSize: 14, color: 'var(--fg-muted)', padding: '8px 0',
+                borderBottom: '1px solid var(--border)', fontWeight: 300,
+              }}>{c}</div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Contact() {
+  return (
+    <section id="contact" style={{
+      padding: 'clamp(80px, 12vh, 120px) clamp(24px, 10vw, 160px)',
+      borderTop: '1px solid var(--border)',
+      background: 'var(--bg2)',
+    }}>
+      <SectionLabel>05 — Contact</SectionLabel>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+        <div>
+          <h2 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(36px, 5vw, 64px)',
+            fontWeight: 400, lineHeight: 1.1,
+            color: 'var(--fg)', marginBottom: 24,
+          }}>
+            Let's work on<br />
+            <em style={{ fontStyle: 'italic', color: 'var(--accent)' }}>hard problems.</em>
+          </h2>
+          <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--fg-muted)', fontWeight: 300 }}>
+            If you're working at the frontier of AI — building agents, designing RAG architectures, 
+            or shipping ML systems that need to be reliable — let's connect.
+          </p>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          {[
+            { label: 'Email', value: 'bhaskards6869@gmail.com', href: 'mailto:bhaskards6869@gmail.com' },
+            { label: 'LinkedIn', value: '/in/bhaskar-kumar-', href: 'https://www.linkedin.com/in/bhaskar-kumar-' },
+            { label: 'GitHub', value: 'github.com/bprs68', href: 'https://github.com/bprs68' },
+            { label: 'Location', value: 'Mumbai, India', href: null },
+          ].map(({ label, value, href }) => (
+            <div key={label} style={{
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              padding: '20px 0',
+              borderBottom: '1px solid var(--border)',
+            }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--fg-dim)' }}>{label}</span>
+              {href ? (
+                <a href={href} target="_blank" rel="noopener" style={{
+                  fontSize: 14, color: 'var(--fg-muted)', textDecoration: 'none',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={e => e.target.style.color = 'var(--accent)'}
+                onMouseLeave={e => e.target.style.color = 'var(--fg-muted)'}
+                >{value} →</a>
+              ) : (
+                <span style={{ fontSize: 14, color: 'var(--fg-muted)' }}>{value}</span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer style={{
+      padding: '32px clamp(24px, 10vw, 160px)',
+      borderTop: '1px solid var(--border)',
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+    }}>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--fg-dim)', letterSpacing: '0.08em' }}>
+        © 2026 Bhaskar Kumar
+      </span>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--fg-dim)', letterSpacing: '0.06em' }}>
+        Mumbai · India
+      </span>
+    </footer>
+  );
+}
+
+// ─── TWEAKS ──────────────────────────────────────────────────────────
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accentColor": "amber",
+  "darkMode": true,
+  "fontStyle": "serif"
+}/*EDITMODE-END*/;
+
+function TweaksPanel({ onClose }) {
+  const [accent, setAccent] = useState(TWEAK_DEFAULTS.accentColor);
+  const [dark, setDark] = useState(TWEAK_DEFAULTS.darkMode);
+  const [font, setFont] = useState(TWEAK_DEFAULTS.fontStyle);
+
+  const accents = {
+    amber: ['oklch(0.75 0.14 65)', 'oklch(0.55 0.10 65)'],
+    teal:  ['oklch(0.72 0.12 195)', 'oklch(0.50 0.09 195)'],
+    rose:  ['oklch(0.70 0.15 15)', 'oklch(0.50 0.10 15)'],
+    sage:  ['oklch(0.70 0.10 155)', 'oklch(0.50 0.08 155)'],
+  };
+
+  const apply = (a, d, f) => {
+    const [main, dim] = accents[a];
+    document.documentElement.style.setProperty('--accent', main);
+    document.documentElement.style.setProperty('--accent-dim', dim);
+    document.documentElement.style.setProperty('--bg', d ? 'oklch(0.12 0.01 55)' : 'oklch(0.97 0.005 70)');
+    document.documentElement.style.setProperty('--bg2', d ? 'oklch(0.16 0.01 55)' : 'oklch(0.93 0.005 70)');
+    document.documentElement.style.setProperty('--bg3', d ? 'oklch(0.20 0.012 55)' : 'oklch(0.89 0.005 70)');
+    document.documentElement.style.setProperty('--fg', d ? 'oklch(0.93 0.01 70)' : 'oklch(0.15 0.01 55)');
+    document.documentElement.style.setProperty('--fg-muted', d ? 'oklch(0.65 0.01 70)' : 'oklch(0.40 0.01 55)');
+    document.documentElement.style.setProperty('--fg-dim', d ? 'oklch(0.42 0.01 70)' : 'oklch(0.60 0.01 55)');
+    document.documentElement.style.setProperty('--border', d ? 'oklch(0.25 0.01 55)' : 'oklch(0.82 0.005 55)');
+    document.documentElement.style.setProperty('--font-serif', f === 'serif' ? "'DM Serif Display', Georgia, serif" : "'Inter', system-ui, sans-serif");
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { accentColor: a, darkMode: d, fontStyle: f } }, '*');
+  };
+
+  const handleAccent = (a) => { setAccent(a); apply(a, dark, font); };
+  const handleDark = (d) => { setDark(d); apply(accent, d, font); };
+  const handleFont = (f) => { setFont(f); apply(accent, dark, f); };
+
+  return (
+    <div style={{
+      position: 'fixed', bottom: 24, right: 24, zIndex: 9000,
+      width: 260, background: 'oklch(0.18 0.01 55)',
+      border: '1px solid oklch(0.28 0.01 55)',
+      padding: '20px', fontFamily: 'var(--font-mono)',
+      boxShadow: '0 8px 40px oklch(0 0 0 / 0.5)',
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+        <span style={{ fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--accent)' }}>Tweaks</span>
+        <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--fg-dim)', fontSize: 16 }}>×</button>
+      </div>
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--fg-dim)', marginBottom: 10 }}>Accent Color</div>
+        <div style={{ display: 'flex', gap: 8 }}>
+          {Object.entries({ amber: '#c99040', teal: '#3ba8a0', rose: '#c05060', sage: '#5a9060' }).map(([name, hex]) => (
+            <button key={name} onClick={() => handleAccent(name)} title={name} style={{
+              width: 28, height: 28, borderRadius: '50%', background: hex, border: accent === name ? '2px solid white' : '2px solid transparent', cursor: 'pointer',
+            }} />
+          ))}
+        </div>
+      </div>
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--fg-dim)', marginBottom: 10 }}>Mode</div>
+        <div style={{ display: 'flex', gap: 8 }}>
+          {[['Dark', true], ['Light', false]].map(([label, val]) => (
+            <button key={label} onClick={() => handleDark(val)} style={{
+              flex: 1, padding: '8px', background: dark === val ? 'var(--accent)' : 'oklch(0.22 0.01 55)',
+              border: 'none', cursor: 'pointer', fontSize: 11, letterSpacing: '0.08em',
+              color: dark === val ? 'var(--bg)' : 'var(--fg-muted)',
+            }}>{label}</button>
+          ))}
+        </div>
+      </div>
+      <div>
+        <div style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--fg-dim)', marginBottom: 10 }}>Heading Style</div>
+        <div style={{ display: 'flex', gap: 8 }}>
+          {[['Serif', 'serif'], ['Sans', 'sans']].map(([label, val]) => (
+            <button key={label} onClick={() => handleFont(val)} style={{
+              flex: 1, padding: '8px', background: font === val ? 'var(--accent)' : 'oklch(0.22 0.01 55)',
+              border: 'none', cursor: 'pointer', fontSize: 11, letterSpacing: '0.08em',
+              color: font === val ? 'var(--bg)' : 'var(--fg-muted)',
+              fontFamily: val === 'serif' ? "'DM Serif Display', Georgia, serif" : 'inherit',
+            }}>{label}</button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [tweaksOpen, setTweaksOpen] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener('message', (e) => {
+      if (e.data?.type === '__activate_edit_mode') setTweaksOpen(true);
+      if (e.data?.type === '__deactivate_edit_mode') setTweaksOpen(false);
+    });
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+  }, []);
+
+  const handleClose = () => {
+    setTweaksOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  return (
+    <>
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(6px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 768px) {
+          .two-col { grid-template-columns: 1fr !important; gap: 40px !important; }
+          .three-col { grid-template-columns: 1fr !important; }
+          .hide-mobile { display: none !important; }
+        }
+      `}</style>
+      <Nav />
+      <Hero />
+      <About />
+      <Experience />
+      <Projects />
+      <Skills />
+      <Contact />
+      <Footer />
+      {tweaksOpen && <TweaksPanel onClose={handleClose} />}
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>
